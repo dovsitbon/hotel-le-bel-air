@@ -1,0 +1,230 @@
+---
+import '../styles/global.css';
+import site from '../data/site.json';
+import bodoniItalic from '@fontsource-variable/bodoni-moda/files/bodoni-moda-latin-opsz-italic.woff2?url';
+
+interface Props {
+  title: string;
+  description: string;
+  schema?: object[];
+  noindex?: boolean;
+}
+const { title, description, schema = [], noindex = false } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const og = new URL('/og.png', Astro.site).href;
+const path = Astro.url.pathname;
+
+const nav = [
+  { href: '/chambres/', label: 'Chambres' },
+  { href: '/restaurant/', label: 'Restaurant' },
+  { href: '/bar-terrasse/', label: 'Bar & terrasse' },
+  { href: '/une-scene-de-cinema/', label: 'Le film' },
+  { href: '/evenements/', label: 'Événements' },
+  { href: '/infos-pratiques/', label: 'Infos pratiques' },
+];
+
+// Horaires → schema.org (généré automatiquement quand site.json est rempli)
+const dayNames = ['', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+const jours = site.horaires.jours as Record<string, string[][]>;
+const openingHours = Object.entries(jours).flatMap(([d, slots]) =>
+  slots.map(([opens, closes]) => ({
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: `https://schema.org/${dayNames[Number(d)]}`,
+    opens,
+    closes,
+  })),
+);
+const address = {
+  '@type': 'PostalAddress',
+  streetAddress: site.adresse.rue,
+  postalCode: site.adresse.codePostal,
+  addressLocality: site.adresse.ville,
+  addressRegion: "Val-d'Oise",
+  addressCountry: site.adresse.pays,
+};
+const hotel: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': 'Hotel',
+  '@id': `${Astro.site}#hotel`,
+  name: site.nomComplet,
+  alternateName: site.nom,
+  description: "Hôtel, restaurant de cuisine méditerranéenne et bar à cocktails avec terrasse, au 67 avenue du Général de Gaulle à Saint-Brice-sous-Forêt (ancienne Nationale 1).",
+  url: Astro.site?.href,
+  telephone: site.telephoneIntl,
+  image: og,
+  address,
+  areaServed: ['Saint-Brice-sous-Forêt', 'Groslay', 'Montmorency', 'Sarcelles', 'Deuil-la-Barre', 'Montmagny', 'Domont', 'Ézanville'],
+  amenityFeature: [
+    { '@type': 'LocationFeatureSpecification', name: 'Parking', value: true },
+    { '@type': 'LocationFeatureSpecification', name: 'Terrasse', value: true },
+  ],
+  containsPlace: [
+    {
+      '@type': 'Restaurant',
+      name: 'Restaurant Le Bel Air',
+      servesCuisine: ['Méditerranéenne', 'Crêpes'],
+      telephone: site.telephoneIntl,
+      address,
+      ...(openingHours.length ? { openingHoursSpecification: openingHours } : {}),
+    },
+    {
+      '@type': 'BarOrPub',
+      name: 'Bar à cocktails Le Bel Air',
+      telephone: site.telephoneIntl,
+      address,
+      ...(openingHours.length ? { openingHoursSpecification: openingHours } : {}),
+    },
+  ],
+};
+if (site.geo) hotel.geo = site.geo;
+if (site.sameAs.length) hotel.sameAs = site.sameAs;
+const ldjson = [hotel, ...schema];
+---
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
+    <meta name="theme-color" content="#0f1a2a" />
+    <link rel="preload" href={bodoniItalic} as="font" type="font/woff2" crossorigin />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:site_name" content="Hôtel Le Bel Air" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={og} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json" set:html={JSON.stringify(ldjson)} />
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip" href="#contenu">Aller au contenu</a>
+    <slot name="intro" />
+
+    <header class="entete">
+      <div class="enveloppe entete-in">
+        <a href="/" class="marque" aria-label="Le Bel Air, accueil">
+          <span class="marque-nom" translate="no">Le Bel Air</span>
+          <span class="marque-lieu">Saint-Brice-sous-Forêt</span>
+        </a>
+        <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu" data-menu-btn>Menu</button>
+        <nav id="menu" class="menu" aria-label="Navigation principale" data-menu>
+          <ul>
+            {nav.map((n) => (
+              <li><a href={n.href} aria-current={path.startsWith(n.href) ? 'page' : undefined}>{n.label}</a></li>
+            ))}
+          </ul>
+          <a class="menu-tel" href={`tel:${site.telephoneIntl}`}>{site.telephone}</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="contenu">
+      <slot />
+    </main>
+
+    <footer class="pied">
+      <div class="enveloppe pied-in">
+        <div class="pied-nap">
+          <p class="pied-nom">Hôtel Le Bel Air</p>
+          <p>Hôtel, restaurant et bar à cocktails</p>
+          <address>
+            {site.adresse.rue}<br />
+            {site.adresse.codePostal} {site.adresse.ville}<br />
+            <a href={`tel:${site.telephoneIntl}`}>{site.telephone}</a>
+          </address>
+        </div>
+        <nav aria-label="Pages du site" class="pied-nav">
+          <ul>
+            {nav.map((n) => <li><a href={n.href}>{n.label}</a></li>)}
+          </ul>
+        </nav>
+        <div class="pied-legal">
+          <ul>
+            <li><a href="/mentions-legales/">Mentions légales</a></li>
+            <li><a href="/confidentialite/">Confidentialité</a></li>
+            <li><a href={site.itineraire} rel="noopener" target="_blank">Itinéraire Google Maps<span class="sr-only"> (nouvel onglet)</span></a></li>
+          </ul>
+          <p class="pied-note">Ce site ne dépose aucun cookie et n'utilise aucun outil de mesure d'audience.</p>
+        </div>
+      </div>
+    </footer>
+
+    <div class="barre-appel" aria-label="Contact rapide">
+      <a class="btn btn-cerise" href={`tel:${site.telephoneIntl}`}>Appeler</a>
+      <a class="btn btn-laiton" href={site.itineraire} rel="noopener" target="_blank">Itinéraire<span class="sr-only"> (nouvel onglet)</span></a>
+    </div>
+
+    <script>
+      const btn = document.querySelector<HTMLButtonElement>('[data-menu-btn]');
+      const menu = document.querySelector<HTMLElement>('[data-menu]');
+      btn?.addEventListener('click', () => {
+        const open = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', String(!open));
+        menu?.classList.toggle('ouvert', !open);
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && btn?.getAttribute('aria-expanded') === 'true') {
+          btn.setAttribute('aria-expanded', 'false');
+          menu?.classList.remove('ouvert');
+          btn.focus();
+        }
+      });
+    </script>
+  </body>
+</html>
+
+<style>
+  .entete { border-bottom: 1px solid rgba(176,141,87,.35); background: var(--color-nuit); position: relative; z-index: 20; }
+  .entete-in { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 4.5rem; flex-wrap: wrap; }
+  .marque { display: grid; text-decoration: none; line-height: 1; padding-block: .6rem; }
+  .marque-nom { font-family: var(--font-titre); font-style: italic; font-size: 1.6rem; font-weight: 500; color: var(--color-creme); }
+  .marque-lieu { font-size: .78rem; color: var(--color-laiton-clair); margin-top: .3rem; letter-spacing: .04em; }
+  .menu-btn { min-height: 44px; min-width: 44px; padding: .5rem 1rem; border: 1px solid var(--color-laiton); color: var(--color-creme); font: inherit; font-weight: 500; border-radius: 2px; }
+  .menu { display: none; width: 100%; padding-bottom: 1rem; }
+  .menu.ouvert { display: block; }
+  .menu ul { display: grid; list-style: none; margin: 0; padding: 0; }
+  .menu li a { display: flex; align-items: center; min-height: 48px; text-decoration: none; border-bottom: 1px solid rgba(176,141,87,.2); font-size: 1.1rem; }
+  .menu a[aria-current='page'] { color: var(--color-laiton-clair); }
+  .menu-tel { display: flex; align-items: center; min-height: 48px; font-weight: 500; color: var(--color-laiton-clair); }
+  @media (min-width: 64rem) {
+    .menu-btn { display: none; }
+    .menu { display: flex !important; width: auto; padding: 0; align-items: center; gap: 1.75rem; }
+    .menu ul { display: flex; gap: 1.4rem; }
+    .menu li a { border: 0; font-size: .98rem; min-height: 44px; position: relative; }
+    .menu li a:hover, .menu a[aria-current='page'] { color: var(--color-laiton-clair); }
+    .menu a[aria-current='page']::after { content: ""; position: absolute; left: 0; right: 0; bottom: .55rem; height: 1px; background: currentColor; }
+    .menu-tel { border-left: 1px solid rgba(176,141,87,.4); padding-left: 1.5rem; }
+  }
+
+  .pied { background: #0a1220; border-top: 1px solid rgba(176,141,87,.35); padding-block: 3.5rem 6.5rem; font-size: .95rem; }
+  @media (min-width: 64rem) { .pied { padding-bottom: 3rem; } }
+  .pied-in { display: grid; gap: 2.25rem; }
+  @media (min-width: 48rem) { .pied-in { grid-template-columns: 1.3fr 1fr 1fr; } }
+  .pied p { margin: 0; }
+  .pied-nom { font-family: var(--font-titre); font-style: italic; font-size: 1.5rem; color: var(--color-creme); margin-bottom: .25rem !important; }
+  .pied address { font-style: normal; margin-top: 1rem; line-height: 1.7; }
+  .pied ul { list-style: none; margin: 0; padding: 0; display: grid; }
+  .pied ul a { display: inline-flex; align-items: center; min-height: 44px; text-decoration: none; }
+  .pied ul a:hover { color: var(--color-laiton-clair); text-decoration: underline; }
+  .pied address a { display: inline-flex; min-height: 44px; align-items: center; color: var(--color-laiton-clair); }
+  .pied-note { margin-top: 1rem !important; color: var(--color-brume); font-size: .85rem; }
+
+  .barre-appel {
+    position: fixed; inset: auto 0 0 0; z-index: 30;
+    display: grid; grid-template-columns: 1fr 1fr; gap: .5rem;
+    padding: .6rem 1rem calc(.6rem + env(safe-area-inset-bottom));
+    background: rgba(15,26,42,.97); border-top: 1px solid rgba(176,141,87,.45);
+  }
+  .barre-appel .btn { width: 100%; }
+  @media (min-width: 64rem) { .barre-appel { display: none; } }
+</style>

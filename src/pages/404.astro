@@ -1,0 +1,18 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Page introuvable | Hôtel Le Bel Air" description="Cette page n'existe pas sur le site de l'Hôtel Le Bel Air." noindex>
+  <section class="perdu">
+    <div class="enveloppe">
+      <h1>Mauvaise chambre.</h1>
+      <p>Cette page n'existe pas, ou plus. La réception est par ici.</p>
+      <a class="btn btn-laiton" href="/">Retour à l'accueil</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .perdu { padding-block: 6rem; }
+  h1 { font-size: clamp(3rem, 10vw, 6rem); font-style: italic; margin: 0 0 1rem; }
+  p { margin: 0 0 2rem; font-size: 1.15rem; }
+</style>

@@ -1,0 +1,24 @@
+{
+  "name": "hotel-le-bel-air",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview --port 4407",
+    "captures": "node scripts/captures.mjs",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
+    "@fontsource-variable/bodoni-moda": "^5.3.0",
+    "@fontsource-variable/jost": "^5.3.0",
+    "@tailwindcss/vite": "^4.3.3",
+    "astro": "^7.4.2",
+    "tailwindcss": "^4.3.3"
+  },
+  "devDependencies": {
+    "playwright": "^1.64.1"
+  }
+}

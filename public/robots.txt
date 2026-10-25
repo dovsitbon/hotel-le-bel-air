@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://hotel-le-bel-air.vercel.app/sitemap-index.xml

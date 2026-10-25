@@ -1,0 +1,126 @@
+---
+// Formulaire sans backend (Web3Forms). Clé dans src/data/site.json → web3formsKey.
+import site from '../data/site.json';
+interface Props { objet: 'chambre' | 'evenement'; }
+const { objet } = Astro.props;
+const p = `f-${objet}`;
+---
+<form class="demande" action="https://api.web3forms.com/submit" method="POST" data-form data-key={site.web3formsKey} novalidate>
+  <input type="hidden" name="access_key" value={site.web3formsKey} />
+  <input type="hidden" name="subject" value={objet === 'chambre' ? 'Demande de disponibilité, chambre' : 'Demande pour un événement privé'} />
+  <input type="checkbox" name="botcheck" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+  <div class="grille">
+    <div class="champ">
+      <label for={`${p}-nom`}>Nom</label>
+      <input id={`${p}-nom`} name="nom" type="text" autocomplete="name" required />
+    </div>
+    <div class="champ">
+      <label for={`${p}-tel`}>Téléphone</label>
+      <input id={`${p}-tel`} name="telephone" type="tel" autocomplete="tel" inputmode="tel" required />
+    </div>
+    <div class="champ large">
+      <label for={`${p}-mail`}>E-mail <span class="facultatif">(facultatif)</span></label>
+      <input id={`${p}-mail`} name="email" type="email" autocomplete="email" spellcheck="false" />
+    </div>
+
+    {objet === 'chambre' ? (
+      <>
+        <div class="champ">
+          <label for={`${p}-arrivee`}>Arrivée</label>
+          <input id={`${p}-arrivee`} name="arrivee" type="date" required />
+        </div>
+        <div class="champ">
+          <label for={`${p}-depart`}>Départ</label>
+          <input id={`${p}-depart`} name="depart" type="date" required />
+        </div>
+        <div class="champ">
+          <label for={`${p}-pers`}>Nombre de personnes</label>
+          <input id={`${p}-pers`} name="personnes" type="number" min="1" max="20" value="2" required />
+        </div>
+      </>
+    ) : (
+      <>
+        <div class="champ">
+          <label for={`${p}-type`}>Occasion</label>
+          <select id={`${p}-type`} name="occasion" required>
+            <option value="Anniversaire">Anniversaire</option>
+            <option value="Soirée romantique">Soirée romantique</option>
+            <option value="Groupe">Groupe</option>
+            <option value="Autre">Autre</option>
+          </select>
+        </div>
+        <div class="champ">
+          <label for={`${p}-date`}>Date souhaitée</label>
+          <input id={`${p}-date`} name="date" type="date" required />
+        </div>
+        <div class="champ">
+          <label for={`${p}-pers`}>Nombre de personnes</label>
+          <input id={`${p}-pers`} name="personnes" type="number" min="1" max="200" value="2" required />
+        </div>
+      </>
+    )}
+
+    <div class="champ large">
+      <label for={`${p}-msg`}>Message <span class="facultatif">(facultatif)</span></label>
+      <textarea id={`${p}-msg`} name="message" rows="4"></textarea>
+    </div>
+  </div>
+
+  <div class="consent">
+    <input id={`${p}-rgpd`} name="consentement" type="checkbox" value="oui" required />
+    <label for={`${p}-rgpd`}>J'accepte que mes coordonnées soient utilisées uniquement pour répondre à cette demande. <a href="/confidentialite/" class="lien-laiton">Politique de confidentialité</a></label>
+  </div>
+
+  <div class="actions">
+    <button type="submit" class="btn btn-cerise">{objet === 'chambre' ? 'Demander une disponibilité' : 'Envoyer la demande'}</button>
+    <a class="btn btn-laiton" href={`tel:${site.telephoneIntl}`}>Ou appeler le {site.telephone}</a>
+  </div>
+  <p class="retour" data-retour role="status" aria-live="polite"></p>
+</form>
+
+<style>
+  .demande { display: grid; gap: 1.25rem; }
+  .grille { display: grid; gap: 1rem; grid-template-columns: 1fr; }
+  @media (min-width: 40rem) { .grille { grid-template-columns: 1fr 1fr; } .large { grid-column: 1 / -1; } }
+  .facultatif { font-weight: 400; opacity: .75; }
+  .consent { display: flex; gap: .75rem; align-items: flex-start; font-size: .95rem; }
+  .consent input { width: 1.4rem; height: 1.4rem; margin-top: .15rem; flex: none; accent-color: var(--color-cerise); }
+  .actions { display: flex; flex-wrap: wrap; gap: .75rem; }
+  .retour { margin: 0; min-height: 1.5em; font-weight: 500; }
+  .retour[data-type='erreur'] { color: var(--color-cerise); }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>('[data-form]').forEach((form) => {
+    const retour = form.querySelector<HTMLElement>('[data-retour]')!;
+    const dire = (msg: string, type: 'ok' | 'erreur') => { retour.textContent = msg; retour.dataset.type = type; };
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!form.checkValidity()) {
+        const premier = form.querySelector<HTMLElement>(':invalid');
+        premier?.focus();
+        dire('Merci de remplir les champs obligatoires et de cocher la case de consentement.', 'erreur');
+        return;
+      }
+      const cle = form.dataset.key || '';
+      if (!cle || cle.includes('CONFIRMER')) {
+        dire("L'envoi en ligne n'est pas encore activé. Appelez-nous au 09 50 51 08 86, nous vous répondons directement.", 'erreur');
+        return;
+      }
+      const bouton = form.querySelector<HTMLButtonElement>('button[type=submit]')!;
+      bouton.disabled = true;
+      dire('Envoi en cours…', 'ok');
+      try {
+        const r = await fetch(form.action, { method: 'POST', headers: { Accept: 'application/json' }, body: new FormData(form) });
+        if (!r.ok) throw new Error();
+        form.reset();
+        dire('Demande envoyée. Nous vous rappelons rapidement.', 'ok');
+      } catch {
+        dire("La demande n'est pas partie. Réessayez ou appelez le 09 50 51 08 86.", 'erreur');
+      } finally {
+        bouton.disabled = false;
+      }
+    });
+  });
+</script>

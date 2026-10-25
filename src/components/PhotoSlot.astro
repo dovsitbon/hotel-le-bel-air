@@ -1,0 +1,8 @@
+---
+// Emplacement réservé à une vraie photo (voir PHOTOS_A_PRENDRE.md).
+interface Props { titre: string; legende: string; ratio?: string; class?: string; }
+const { titre, legende, ratio = '4 / 3', class: cls = '' } = Astro.props;
+---
+<figure class={`photo-slot ${cls}`} style={`aspect-ratio:${ratio}`} role="img" aria-label={`Emplacement photo à venir : ${titre}`}>
+  <figcaption><strong>Photo à venir : {titre}</strong>{legende}</figcaption>
+</figure>

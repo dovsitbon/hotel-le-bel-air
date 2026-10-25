@@ -1,0 +1,23 @@
+---
+interface Item { nom: string; description?: string; prix: string; }
+interface Props { items: Item[]; }
+const { items } = Astro.props;
+const marque = (t: string) => t.includes('CONFIRMER');
+---
+<ul class="menu-liste">
+  {items.map((it) => (
+    <li>
+      <span class="m-nom">{marque(it.nom) ? <span class="a-confirmer">{it.nom}</span> : it.nom}</span>
+      <span class="m-prix">{marque(it.prix) ? <span class="a-confirmer">{it.prix}</span> : it.prix}</span>
+      {it.description && <span class="m-desc">{it.description}</span>}
+    </li>
+  ))}
+</ul>
+
+<style>
+  .menu-liste { list-style: none; margin: 0; padding: 0; display: grid; }
+  .menu-liste li { display: grid; grid-template-columns: 1fr auto; gap: .2rem 1rem; padding: .9rem 0; border-bottom: 1px solid rgba(176,141,87,.3); align-items: baseline; }
+  .m-nom { font-family: var(--font-titre); font-size: 1.25rem; }
+  .m-prix { font-weight: 500; }
+  .m-desc { grid-column: 1 / -1; color: inherit; opacity: .8; font-size: .95rem; }
+</style>

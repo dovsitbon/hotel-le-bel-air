@@ -1,0 +1,54 @@
+---
+// Le tableau des clés de la réception : navigation principale de l'accueil.
+import KeyTag from './KeyTag.astro';
+const cles = [
+  { n: 1, verbe: 'Dormir', texte: 'Chambres refaites, literie confortable, parking devant l’hôtel.', href: '/chambres/', lien: 'Les chambres' },
+  { n: 2, verbe: 'Manger', texte: 'Cuisine méditerranéenne, plats frais et crêpes.', href: '/restaurant/', lien: 'Le restaurant' },
+  { n: 3, verbe: 'Boire un verre', texte: 'Cocktails et grande terrasse au soleil.', href: '/bar-terrasse/', lien: 'Le bar et la terrasse' },
+];
+---
+<section class="tableau" aria-labelledby="tableau-titre">
+  <div class="enveloppe">
+    <h2 id="tableau-titre" class="tableau-titre">Trois clés, au choix</h2>
+    <ul class="crochets">
+      {cles.map((c) => (
+        <li>
+          <a href={c.href} class="cle-lien">
+            <span class="cle-pend"><KeyTag numero={c.n} /></span>
+            <span class="cle-txt">
+              <span class="cle-verbe">{c.verbe}</span>
+              <span class="cle-desc">{c.texte}</span>
+              <span class="cle-cta">{c.lien}</span>
+            </span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .tableau { background: var(--color-nuit-2); padding-block: 4rem 4.5rem; border-block: 1px solid rgba(176,141,87,.3); }
+  .tableau-titre { font-size: clamp(1.8rem, 4vw, 2.6rem); margin: 0 0 2.5rem; font-style: italic; }
+  .crochets { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; position: relative; }
+  .cle-lien { display: grid; grid-template-columns: 4.5rem 1fr; gap: 1.25rem; align-items: start; text-decoration: none; padding: .5rem 0 1rem; border-bottom: 1px solid rgba(176,141,87,.25); }
+  .cle-pend { display: block; transform-origin: 50% 4%; transition: transform .5s cubic-bezier(.3,1.6,.5,1); }
+  .cle-pend :global(svg) { width: 100%; height: auto; display: block; }
+  .cle-txt { display: grid; gap: .35rem; padding-top: .9rem; }
+  .cle-verbe { font-family: var(--font-titre); font-size: clamp(1.9rem, 5vw, 2.6rem); line-height: 1; }
+  .cle-desc { color: var(--color-brume); max-width: 30ch; }
+  .cle-cta { color: var(--color-laiton-clair); text-decoration: underline; text-underline-offset: .25em; font-weight: 500; margin-top: .25rem; }
+  .cle-lien:hover .cle-pend, .cle-lien:focus-visible .cle-pend { transform: rotate(-6deg); }
+  .cle-lien:hover .cle-verbe { color: var(--color-laiton-clair); }
+
+  @media (min-width: 52rem) {
+    .crochets { grid-template-columns: repeat(3, 1fr); gap: 2rem; padding-top: 1.75rem; }
+    /* la barre laiton où pendent les clés */
+    .crochets::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 4px; background: linear-gradient(#d2b27a, #7f6034); border-radius: 2px; }
+    .crochets li { position: relative; }
+    .crochets li::before { content: ""; position: absolute; top: -1.75rem; left: calc(50% - 2px); width: 4px; height: 1.6rem; background: #9c7a45; border-radius: 0 0 3px 3px; }
+    .cle-lien { grid-template-columns: 1fr; justify-items: center; text-align: center; border: 0; padding: 0; }
+    .cle-pend { width: 7.5rem; margin-top: -.4rem; }
+    .cle-desc { margin-inline: auto; }
+  }
+</style>

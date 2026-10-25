@@ -1,0 +1,159 @@
+@import "tailwindcss";
+@import "@fontsource-variable/bodoni-moda/opsz.css";
+@import "@fontsource-variable/bodoni-moda/opsz-italic.css";
+@import "@fontsource-variable/jost/wght.css";
+
+@theme {
+  --color-nuit: #0f1a2a;
+  --color-nuit-2: #18263b;
+  --color-nuit-3: #22344f;
+  --color-laiton: #b08d57;
+  --color-laiton-clair: #d2b27a;
+  --color-laiton-fonce: #7a5c2e;
+  --color-creme: #f1e9da;
+  --color-creme-2: #e6dbc6;
+  --color-cerise: #a51e2f;
+  --color-cerise-fonce: #85131f;
+  --color-brume: #b9c0ca;
+  --font-titre: "Bodoni Moda Variable", "Bodoni 72", "Didot", Georgia, serif;
+  --font-texte: "Jost Variable", "Futura", "Century Gothic", system-ui, sans-serif;
+}
+
+/* ---------- Base ---------- */
+html {
+  background: var(--color-nuit);
+  color: var(--color-creme);
+  font-family: var(--font-texte);
+  font-size: 100%;
+  -webkit-text-size-adjust: 100%;
+  scroll-padding-top: 1rem;
+  color-scheme: dark;
+  -webkit-tap-highlight-color: rgba(176,141,87,.25);
+}
+a, button, summary, label, input, select, textarea { touch-action: manipulation; }
+body {
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  font-weight: 400;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
+}
+h1, h2, h3, .titre {
+  font-family: var(--font-titre);
+  font-optical-sizing: auto;
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+p { text-wrap: pretty; }
+:where(main p) { margin: 0 0 1em; }
+:where(main p:last-child) { margin-bottom: 0; }
+.nowrap { white-space: nowrap; }
+a { color: inherit; text-underline-offset: 0.2em; text-decoration-thickness: 1px; }
+::selection { background: var(--color-laiton); color: var(--color-nuit); }
+
+:focus-visible {
+  outline: 2px solid var(--color-laiton-clair);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+.sur-creme :focus-visible { outline-color: var(--color-laiton-fonce); }
+
+.skip {
+  position: absolute; left: 1rem; top: -4rem; z-index: 100;
+  background: var(--color-creme); color: var(--color-nuit);
+  padding: .75rem 1rem; font-weight: 500;
+}
+.skip:focus { top: 1rem; }
+
+.enveloppe { width: min(100% - 2rem, 76rem); margin-inline: auto; }
+@media (min-width: 48rem) { .enveloppe { width: min(100% - 4rem, 76rem); } }
+
+.sur-creme { background: var(--color-creme); color: var(--color-nuit); }
+.sur-nuit-2 { background: var(--color-nuit-2); }
+
+/* Marqueur de contenu manquant : visible mais propre */
+.a-confirmer {
+  display: inline-block;
+  font-family: var(--font-texte);
+  font-style: normal;
+  font-size: .8em;
+  font-weight: 500;
+  letter-spacing: .01em;
+  padding: .05em .45em;
+  border: 1px dashed currentColor;
+  border-radius: 2px;
+  opacity: .85;
+  white-space: nowrap;
+}
+
+/* ---------- Boutons ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: .6rem;
+  min-height: 48px; padding: .7rem 1.4rem;
+  font-weight: 500; font-size: 1rem; text-decoration: none;
+  border: 1px solid transparent; border-radius: 2px;
+  transition: background-color .2s ease, color .2s ease, border-color .2s ease;
+  cursor: pointer;
+}
+.btn-cerise { background: var(--color-cerise); color: var(--color-creme); }
+.btn-cerise:hover { background: var(--color-cerise-fonce); }
+.btn-laiton { border-color: var(--color-laiton); color: var(--color-creme); }
+.btn-laiton:hover { background: var(--color-laiton); color: var(--color-nuit); }
+.sur-creme .btn-laiton { border-color: var(--color-laiton-fonce); color: var(--color-nuit); }
+.sur-creme .btn-laiton:hover { background: var(--color-nuit); border-color: var(--color-nuit); color: var(--color-creme); }
+
+.lien-laiton { color: var(--color-laiton-clair); text-decoration: underline; }
+.sur-creme .lien-laiton { color: var(--color-laiton-fonce); }
+
+/* ---------- Filet laiton avec losange (motif enseigne) ---------- */
+.filet { display: flex; align-items: center; gap: .75rem; color: var(--color-laiton); }
+.filet::before, .filet::after { content: ""; height: 1px; flex: 1; background: currentColor; opacity: .7; }
+.sur-creme .filet { color: var(--color-laiton-fonce); }
+
+/* ---------- Crédits (rôle | nom) ---------- */
+.credits { display: grid; gap: .55rem 1.25rem; grid-template-columns: 1fr 1fr; }
+.credits dt { text-align: right; font-family: var(--font-titre); font-style: italic; color: var(--color-laiton-clair); }
+.credits dd { margin: 0; }
+.sur-creme .credits dt { color: var(--color-laiton-fonce); }
+@media (max-width: 40rem) {
+  .credits { grid-template-columns: 6.5rem 1fr; gap: .5rem 1rem; }
+  .credits dt { text-align: left; }
+}
+
+/* ---------- Emplacement photo ---------- */
+.photo-slot {
+  position: relative; display: flex; align-items: flex-end;
+  background:
+    repeating-linear-gradient(135deg, transparent 0 22px, rgba(176,141,87,.10) 22px 23px),
+    var(--color-nuit-3);
+  color: var(--color-creme);
+  border: 1px solid rgba(176,141,87,.35);
+  overflow: hidden;
+}
+.photo-slot figcaption { padding: 1rem 1.1rem; font-size: .9rem; line-height: 1.4; max-width: 34ch; }
+.photo-slot figcaption strong { display: block; font-family: var(--font-titre); font-style: italic; font-weight: 500; color: var(--color-laiton-clair); font-size: 1rem; }
+
+/* ---------- Champs de formulaire ---------- */
+.champ { display: grid; gap: .35rem; }
+.champ label { font-weight: 500; font-size: .95rem; }
+.champ input, .champ select, .champ textarea {
+  width: 100%; min-height: 48px; padding: .65rem .8rem;
+  background: var(--color-creme); color: var(--color-nuit);
+  border: 1px solid var(--color-laiton-fonce); border-radius: 2px;
+  font: inherit;
+  color-scheme: light;
+}
+.champ textarea { min-height: 7rem; resize: vertical; }
+.champ input:focus-visible, .champ select:focus-visible, .champ textarea:focus-visible { outline-offset: 1px; }
+
+/* ---------- Mouvement : coupé si l'utilisateur le demande ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

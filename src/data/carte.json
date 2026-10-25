@@ -1,0 +1,31 @@
+{
+  "_aide": "Remplacer chaque « [À CONFIRMER] » par le vrai nom, la description et le prix. Ajouter ou retirer des lignes librement. Le prix s'écrit tel qu'il doit s'afficher, par ex. « 14 € ».",
+  "restaurant": [
+    {
+      "titre": "Plats frais du moment",
+      "intro": "Cuisine méditerranéenne, préparée sur place.",
+      "plats": [
+        { "nom": "[À CONFIRMER]", "description": "", "prix": "[À CONFIRMER]" },
+        { "nom": "[À CONFIRMER]", "description": "", "prix": "[À CONFIRMER]" },
+        { "nom": "[À CONFIRMER]", "description": "", "prix": "[À CONFIRMER]" }
+      ]
+    },
+    {
+      "titre": "Les crêpes",
+      "intro": "Salées ou sucrées.",
+      "plats": [
+        { "nom": "[À CONFIRMER]", "description": "", "prix": "[À CONFIRMER]" },
+        { "nom": "[À CONFIRMER]", "description": "", "prix": "[À CONFIRMER]" }
+      ]
+    }
+  ],
+  "cocktails": [
+    { "nom": "[À CONFIRMER]", "description": "", "prix": "[À CONFIRMER]" },
+    { "nom": "[À CONFIRMER]", "description": "", "prix": "[À CONFIRMER]" },
+    { "nom": "[À CONFIRMER]", "description": "", "prix": "[À CONFIRMER]" }
+  ],
+  "chambres": [
+    { "type": "[À CONFIRMER]", "couchage": "[À CONFIRMER]", "tarif": "[À CONFIRMER]" },
+    { "type": "[À CONFIRMER]", "couchage": "[À CONFIRMER]", "tarif": "[À CONFIRMER]" }
+  ]
+}

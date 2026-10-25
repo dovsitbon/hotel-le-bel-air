@@ -1,0 +1,72 @@
+---
+// Générique d'ouverture : ~4 s, une fois par session, sautable (bouton, Échap, clic).
+// Jamais affiché si prefers-reduced-motion est actif ou si JavaScript est coupé.
+---
+<div id="generique" class="generique" hidden>
+  <div class="gen-texte" aria-hidden="true">
+    <p class="gen-l1">Au bord de l'ancienne Nationale 1</p>
+    <p class="gen-titre">Le Bel Air</p>
+    <p class="gen-l2">Hôtel <span>&</span> restaurant <span>&</span> bar à cocktails</p>
+    <p class="gen-l3">Saint-Brice-sous-Forêt</p>
+  </div>
+  <button type="button" class="gen-passer" data-gen-passer>Passer le générique</button>
+</div>
+
+<script is:inline>
+  (function () {
+    var g = document.getElementById('generique');
+    var root = document.documentElement;
+    var vu = false;
+    try { vu = sessionStorage.getItem('belair-generique') === 'vu'; } catch (e) {}
+    var calme = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!g || vu || calme) { root.classList.add('credits-run'); return; }
+    try { sessionStorage.setItem('belair-generique', 'vu'); } catch (e) {}
+    g.hidden = false;
+    root.classList.add('gen-actif');
+    var fini = false;
+    function fin() {
+      if (fini) return; fini = true;
+      g.classList.add('gen-sortie');
+      root.classList.remove('gen-actif');
+      root.classList.add('credits-run');
+      setTimeout(function () { g.remove(); }, 450);
+      document.removeEventListener('keydown', clavier);
+    }
+    function clavier(e) { if (e.key === 'Escape') fin(); }
+    document.addEventListener('keydown', clavier);
+    g.addEventListener('click', fin);
+    setTimeout(fin, 4200);
+  })();
+</script>
+
+<style>
+  .generique {
+    position: fixed; inset: 0; z-index: 90;
+    display: grid; place-items: center;
+    background: var(--color-nuit);
+    color: var(--color-creme);
+    cursor: pointer;
+    transition: opacity .45s ease;
+  }
+  .generique[hidden] { display: none; }
+  .gen-sortie { opacity: 0; pointer-events: none; }
+  .gen-texte { text-align: center; padding: 1.5rem; }
+  .gen-texte p { margin: 0; opacity: 0; animation: gen-in .9s ease forwards; }
+  .gen-l1 { font-size: .95rem; color: var(--color-laiton-clair); letter-spacing: .05em; animation-delay: .2s !important; }
+  .gen-titre {
+    font-family: var(--font-titre); font-style: italic; font-weight: 500;
+    font-size: clamp(3.5rem, 15vw, 10rem); line-height: 1; margin: 1.2rem 0 !important;
+    animation-delay: 1s !important;
+  }
+  .gen-l2 { font-family: var(--font-titre); font-size: clamp(1rem, 2.6vw, 1.4rem); animation-delay: 1.9s !important; }
+  .gen-l2 span { color: var(--color-laiton); font-style: italic; }
+  .gen-l3 { margin-top: .6rem !important; font-size: .9rem; color: var(--color-brume); animation-delay: 2.4s !important; }
+  .gen-passer {
+    position: absolute; right: 1rem; bottom: 1rem;
+    min-height: 44px; padding: .5rem 1rem;
+    font: inherit; font-size: .9rem; color: var(--color-creme);
+    border: 1px solid rgba(176,141,87,.6); border-radius: 2px; background: transparent;
+  }
+  .gen-passer:hover { background: var(--color-laiton); color: var(--color-nuit); }
+  @keyframes gen-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+</style>

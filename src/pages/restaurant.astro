@@ -1,0 +1,73 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import PhotoSlot from '../components/PhotoSlot.astro';
+import MenuList from '../components/MenuList.astro';
+import Status from '../components/Status.astro';
+import carte from '../data/carte.json';
+import site from '../data/site.json';
+---
+<Base
+  title="Restaurant méditerranéen et crêpes, Saint-Brice | Le Bel Air"
+  description="Cuisine méditerranéenne, plats frais et crêpes au Bel Air, 67 avenue du Général de Gaulle à Saint-Brice-sous-Forêt. Terrasse, parking. Tél. 09 50 51 08 86."
+>
+  <PageHead cle={2} titre="Le restaurant" chapo="Une cuisine méditerranéenne, des plats frais, et des crêpes que les habitués recommandent. En salle refaite à neuf ou dehors, sur la terrasse." />
+
+  <section class="bloc" aria-labelledby="table-titre">
+    <div class="enveloppe deux">
+      <div>
+        <h2 id="table-titre">À table</h2>
+        <p>Les clients parlent de plats frais et goûteux, d'une cuisine de qualité et de prix corrects.</p>
+        <p>Le soir, la salle se prête aux dîners à deux comme aux tablées d'anniversaire.</p>
+        <Status />
+      </div>
+      <PhotoSlot titre="une assiette du moment" legende="Plat méditerranéen vu de trois quarts, lumière naturelle, fond de salle flou." ratio="4 / 3" />
+    </div>
+  </section>
+
+  <section class="bloc sur-creme" aria-labelledby="carte-titre">
+    <div class="enveloppe">
+      <h2 id="carte-titre">La carte</h2>
+      <p class="note-carte">La carte définitive et les prix arrivent <span class="a-confirmer">[À CONFIRMER]</span>. En attendant, appelez le {site.telephone} pour connaître les plats du moment.</p>
+      <div class="carte-cols">
+        {carte.restaurant.map((s, i) => (
+          <section aria-labelledby={`rubrique-${i}`}>
+            <h3 id={`rubrique-${i}`}>{s.titre}</h3>
+            <p class="intro">{s.intro}</p>
+            <MenuList items={s.plats} />
+          </section>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="bloc" aria-labelledby="crepes-titre">
+    <div class="enveloppe crepes">
+      <PhotoSlot titre="les crêpes" legende="Crêpe pliée sur assiette, vue de dessus, sur une table de terrasse." ratio="1 / 1" />
+      <div>
+        <h2 id="crepes-titre">Et les crêpes</h2>
+        <p>Elles reviennent souvent dans les avis, qualifiées de délicieuses. Pour finir un repas ou pour l'après-midi en terrasse.</p>
+        <div class="actions">
+          <a class="btn btn-cerise" href={`tel:${site.telephoneIntl}`}>Réserver une table</a>
+          <a class="btn btn-laiton" href="/bar-terrasse/">Voir le bar et la terrasse</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .bloc { padding-block: 4.5rem; }
+  .bloc h2 { font-size: clamp(2rem, 4.5vw, 3rem); margin: 0 0 1.5rem; }
+  .bloc p { max-width: 52ch; }
+  .deux, .crepes { display: grid; gap: 2.5rem; }
+  @media (min-width: 56rem) {
+    .deux { grid-template-columns: 1.1fr .9fr; gap: 4rem; align-items: center; }
+    .crepes { grid-template-columns: 5fr 7fr; gap: 4rem; align-items: center; }
+  }
+  .carte-cols { display: grid; gap: 3rem; margin-top: 2.5rem; }
+  @media (min-width: 56rem) { .carte-cols { grid-template-columns: 1fr 1fr; gap: 5rem; } }
+  .carte-cols h3 { font-size: 1.9rem; font-style: italic; margin: 0 0 .3rem; }
+  .intro { margin: 0 0 1rem; color: var(--color-laiton-fonce); }
+  .actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 1.5rem; }
+</style>

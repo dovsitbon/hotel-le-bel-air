@@ -1,0 +1,41 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import site from '../data/site.json';
+---
+<Base title="Politique de confidentialité | Hôtel Le Bel Air" description="Comment l'Hôtel Le Bel Air traite les données envoyées via les formulaires de demande de disponibilité et d'événement. Aucun cookie, aucun traceur.">
+  <PageHead titre="Confidentialité" />
+  <section class="legal">
+    <div class="enveloppe prose">
+      <h2>En bref</h2>
+      <p>Ce site ne dépose aucun cookie, n'utilise aucun outil de mesure d'audience et aucun traceur publicitaire. Les seules données collectées sont celles que vous écrivez dans un formulaire.</p>
+
+      <h2>Responsable du traitement</h2>
+      <p>Hôtel Le Bel Air, {site.adresse.rue}, {site.adresse.codePostal} {site.adresse.ville}. Exploitant : <span class="a-confirmer">[À CONFIRMER]</span></p>
+
+      <h2>Données collectées et finalité</h2>
+      <p>Les formulaires « Demander une disponibilité » et « Événements privés » recueillent votre nom, votre téléphone, votre e-mail (facultatif), les dates, le nombre de personnes et votre message. Ils servent uniquement à vous répondre. Base légale : votre consentement, donné en cochant la case du formulaire.</p>
+
+      <h2>Transmission</h2>
+      <p>Les messages transitent par le service Web3Forms, qui les transmet par e-mail à l'hôtel. Ils ne sont ni vendus ni cédés à des tiers.</p>
+
+      <h2>Durée de conservation</h2>
+      <p>Les demandes sont conservées le temps de les traiter, puis supprimées <span class="a-confirmer">[À CONFIRMER : durée maximale]</span>.</p>
+
+      <h2>Carte Google Maps</h2>
+      <p>La carte n'est chargée que si vous cliquez sur « Afficher la carte Google Maps ». Google peut alors recevoir votre adresse IP et déposer ses propres cookies, selon sa politique de confidentialité.</p>
+
+      <h2>Vos droits</h2>
+      <p>Vous pouvez demander l'accès, la rectification ou la suppression de vos données en appelant le <a href={`tel:${site.telephoneIntl}`}>{site.telephone}</a> ou par courrier à l'adresse ci-dessus. En cas de désaccord, vous pouvez saisir la CNIL (<a href="https://www.cnil.fr" rel="noopener">cnil.fr</a>).</p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .legal { padding-block: 3.5rem 5rem; }
+  .prose { max-width: 46rem; }
+  .prose h2 { font-size: 1.7rem; margin: 2.5rem 0 .75rem; }
+  .prose h2:first-child { margin-top: 0; }
+  .prose p { line-height: 1.75; }
+  .prose a { color: var(--color-laiton-clair); }
+</style>

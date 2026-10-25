@@ -1,0 +1,31 @@
+---
+import site from '../data/site.json';
+interface Props { class?: string; }
+const { class: cls = '' } = Astro.props;
+---
+<p class={`statut ${cls}`} data-statut data-jours={JSON.stringify(site.horaires.jours)} aria-live="polite">
+  <span class="statut-point" aria-hidden="true"></span>
+  <span data-statut-texte>Horaires à confirmer, appelez-nous</span>
+</p>
+
+<style>
+  .statut { display: inline-flex; align-items: center; gap: .55rem; font-weight: 500; margin: 0; }
+  .statut-point { width: .6rem; height: .6rem; border-radius: 50%; background: var(--color-laiton); flex: none; }
+  .statut[data-state='open'] .statut-point { background: #5fae7a; box-shadow: 0 0 0 3px rgba(95,174,122,.25); }
+  .statut[data-state='closed'] .statut-point { background: var(--color-cerise); }
+</style>
+
+<script>
+  import { computeStatus } from '../scripts/status.js';
+  (window as any).belAirStatus = computeStatus;
+  const maj = () => {
+    document.querySelectorAll<HTMLElement>('[data-statut]').forEach((el) => {
+      const s = computeStatus(JSON.parse(el.dataset.jours || '{}'));
+      el.dataset.state = s.state;
+      const t = el.querySelector('[data-statut-texte]');
+      if (t) t.textContent = s.label;
+    });
+  };
+  maj();
+  setInterval(maj, 60_000);
+</script>

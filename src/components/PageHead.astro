@@ -1,0 +1,25 @@
+---
+import KeyTag from './KeyTag.astro';
+interface Props { titre: string; chapo?: string; cle?: number; }
+const { titre, chapo, cle } = Astro.props;
+---
+<header class="tete">
+  <div class="enveloppe tete-in">
+    <div>
+      <h1>{titre}</h1>
+      {chapo && <p class="chapo">{chapo}</p>}
+      <slot />
+    </div>
+    {cle && <div class="tete-cle"><KeyTag numero={cle} /></div>}
+  </div>
+</header>
+
+<style>
+  .tete { padding-block: 3.5rem 3rem; border-bottom: 1px solid rgba(176,141,87,.3); }
+  .tete-in { display: grid; grid-template-columns: 1fr auto; gap: 1.5rem; align-items: end; }
+  h1 { font-size: clamp(2.7rem, 8vw, 5.6rem); font-style: italic; margin: 0; max-width: 18ch; line-height: .95; }
+  .chapo { font-size: clamp(1.1rem, 2vw, 1.3rem); color: var(--color-brume); max-width: 48ch; margin: 1.5rem 0 0; }
+  .tete-cle { width: 3.6rem; transform: rotate(5deg); transform-origin: top center; }
+  .tete-cle :global(svg) { width: 100%; height: auto; display: block; }
+  @media (min-width: 48rem) { .tete { padding-block: 5rem 4rem; } .tete-cle { width: 6.5rem; } }
+</style>

@@ -1,0 +1,119 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import Hours from '../components/Hours.astro';
+import Status from '../components/Status.astro';
+import MapFacade from '../components/MapFacade.astro';
+import site from '../data/site.json';
+
+const faq = [
+  {
+    q: 'Où se trouve l’Hôtel Le Bel Air ?',
+    r: `Au ${site.adresse.rue}, ${site.adresse.codePostal} ${site.adresse.ville}, au bord de l'ancienne Nationale 1, dans le Val-d'Oise.`,
+  },
+  {
+    q: 'Peut-on se garer facilement ?',
+    r: 'Oui, le stationnement est facile sur place, pour l’hôtel comme pour le restaurant et le bar.',
+  },
+  {
+    q: 'Le Bel Air, c’est seulement un hôtel ?',
+    r: 'Non : c’est un hôtel, un restaurant de cuisine méditerranéenne (avec des crêpes) et un bar à cocktails avec une grande terrasse.',
+  },
+  {
+    q: 'Est-ce l’hôtel du film Itinéraire d’un enfant gâté ?',
+    r: 'Oui. En 1988, Claude Lelouch y a tourné une scène avec Jean-Paul Belmondo et Richard Anconina, dans une chambre du deuxième étage.',
+  },
+  {
+    q: 'Comment réserver une chambre ou une table ?',
+    r: `Par téléphone au ${site.telephone}, ou avec le formulaire de demande de disponibilité de la page Chambres.`,
+  },
+];
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.r } })),
+};
+---
+<Base
+  title="Horaires, accès et parking | Hôtel Le Bel Air, Saint-Brice-sous-Forêt"
+  description="Adresse, accès par la N1 et l'A1, parking, horaires et téléphone de l'Hôtel Le Bel Air, 67 avenue du Général de Gaulle, 95350 Saint-Brice-sous-Forêt."
+  schema={[faqSchema]}
+>
+  <PageHead titre="Infos pratiques">
+    <Status class="tete-statut" />
+  </PageHead>
+
+  <section class="bloc" aria-labelledby="adresse-titre">
+    <div class="enveloppe deux">
+      <div class="col">
+        <h2 id="adresse-titre">Adresse et téléphone</h2>
+        <address>
+          Hôtel Le Bel Air<br />
+          {site.adresse.rue}<br />
+          {site.adresse.codePostal} {site.adresse.ville}
+        </address>
+        <p><a class="tel" href={`tel:${site.telephoneIntl}`}>{site.telephone}</a></p>
+        <div class="actions">
+          <a class="btn btn-cerise" href={site.itineraire} rel="noopener" target="_blank">Itinéraire Google Maps<span class="sr-only"> (nouvel onglet)</span></a>
+        </div>
+
+        <h2 class="h2-suite">Horaires</h2>
+        <Hours />
+      </div>
+      <MapFacade />
+    </div>
+  </section>
+
+  <section class="bloc sur-creme" aria-labelledby="acces-titre">
+    <div class="enveloppe">
+      <h2 id="acces-titre">Venir</h2>
+      <dl class="acces">
+        <dt>En voiture</dt>
+        <dd>L'hôtel est sur l'avenue du Général de Gaulle, le tracé de l'ancienne Nationale 1. Depuis Paris, accès possible par l'autoroute A1 <span class="a-confirmer">[À CONFIRMER : sortie conseillée]</span>.</dd>
+        <dt>Stationnement</dt>
+        <dd>Parking facile sur place.</dd>
+        <dt>En train</dt>
+        <dd>Gare de Sarcelles – Saint-Brice <span class="a-confirmer">[À CONFIRMER : ligne et temps de trajet à pied]</span></dd>
+        <dt>Communes voisines</dt>
+        <dd>Groslay, Montmorency, Sarcelles, Deuil-la-Barre, Montmagny, Domont, Ézanville : les communes autour de Saint-Brice-sous-Forêt, d'où l'on vient dîner, boire un verre ou loger la famille de passage.</dd>
+      </dl>
+    </div>
+  </section>
+
+  <section class="bloc" aria-labelledby="faq-titre">
+    <div class="enveloppe">
+      <h2 id="faq-titre">Questions fréquentes</h2>
+      <div class="faq">
+        {faq.map((f) => (
+          <details>
+            <summary>{f.q}</summary>
+            <p>{f.r}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  :global(.tete-statut) { margin-top: 1.5rem !important; }
+  .bloc { padding-block: 4.5rem; }
+  .bloc h2 { font-size: clamp(2rem, 4.5vw, 3rem); margin: 0 0 1.25rem; }
+  .h2-suite { margin-top: 3rem !important; }
+  .deux { display: grid; gap: 3rem; }
+  @media (min-width: 56rem) { .deux { grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; } }
+  address { font-style: normal; font-family: var(--font-titre); font-size: 1.4rem; line-height: 1.35; }
+  .tel { display: inline-flex; min-height: 44px; align-items: center; font-size: 1.3rem; font-weight: 500; color: var(--color-laiton-clair); }
+  .actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: .5rem; }
+  .acces { display: grid; gap: .3rem 3rem; margin: 0; }
+  .acces dt { font-family: var(--font-titre); font-style: italic; font-size: 1.35rem; color: var(--color-laiton-fonce); margin-top: 1.25rem; }
+  .acces dd { margin: 0; max-width: 60ch; }
+  @media (min-width: 52rem) { .acces { grid-template-columns: 14rem 1fr; } .acces dt { margin-top: 0; } .acces dt, .acces dd { padding: 1rem 0; border-bottom: 1px solid rgba(122,92,46,.3); } }
+  .faq { display: grid; max-width: 52rem; }
+  details { border-bottom: 1px solid rgba(176,141,87,.3); }
+  summary { cursor: pointer; min-height: 48px; display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .9rem 0; font-family: var(--font-titre); font-size: 1.25rem; list-style: none; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: "+"; font-family: var(--font-texte); color: var(--color-laiton-clair); font-size: 1.5rem; transition: transform .2s ease; }
+  details[open] summary::after { transform: rotate(45deg); }
+  details p { margin: 0 0 1.25rem; max-width: 60ch; color: var(--color-brume); }
+</style>

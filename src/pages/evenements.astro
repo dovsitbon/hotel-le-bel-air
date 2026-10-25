@@ -1,0 +1,55 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import PhotoSlot from '../components/PhotoSlot.astro';
+import RequestForm from '../components/RequestForm.astro';
+import site from '../data/site.json';
+---
+<Base
+  title="Anniversaire, soirée à deux, groupe | Le Bel Air, Saint-Brice"
+  description="Anniversaire, soirée romantique ou repas de groupe au Bel Air, à Saint-Brice-sous-Forêt : restaurant, bar à cocktails, terrasse et chambres sur place."
+>
+  <PageHead titre="Événements privés" chapo="Un dîner, des cocktails, une terrasse, et des chambres à l'étage pour ne pas reprendre la route. De quoi fêter quelque chose sans courir d'un endroit à l'autre." />
+
+  <section class="bloc" aria-labelledby="occasions">
+    <div class="enveloppe">
+      <h2 id="occasions" class="sr-only">Les occasions</h2>
+      <div class="occasion">
+        <h3>Un anniversaire</h3>
+        <p>Une grande table au restaurant, un coin de terrasse ou le bar pour l'apéritif : on s'adapte au nombre d'invités. Des clients le recommandent d'ailleurs pour un anniversaire.</p>
+      </div>
+      <div class="occasion">
+        <h3>Une soirée romantique</h3>
+        <p>Dîner à deux, un cocktail en terrasse, et la chambre réservée à l'étage. Le décor cocooning fait le reste.</p>
+      </div>
+      <div class="occasion">
+        <h3>Un groupe</h3>
+        <p>Famille, collègues, amis de passage sur la N1 : dites-nous combien vous êtes et ce que vous voulez faire, on vous propose une formule <span class="a-confirmer">[À CONFIRMER : capacité et formules]</span>.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="bloc sur-creme" aria-labelledby="demande-titre">
+    <div class="enveloppe form-zone">
+      <div>
+        <h2 id="demande-titre">Parlons de votre soirée</h2>
+        <p>Remplissez le formulaire, on vous rappelle pour en discuter. Ou appelez directement le <a class="lien-laiton" href={`tel:${site.telephoneIntl}`}>{site.telephone}</a>.</p>
+        <PhotoSlot titre="une table dressée pour un groupe" legende="Longue table dressée en salle, bougies, avant l'arrivée des invités." ratio="4 / 3" />
+      </div>
+      <RequestForm objet="evenement" />
+    </div>
+  </section>
+</Base>
+
+<style>
+  .bloc { padding-block: 4.5rem; }
+  .bloc h2 { font-size: clamp(2rem, 4.5vw, 3rem); margin: 0 0 1.5rem; }
+  .occasion { display: grid; gap: .5rem; padding: 2rem 0; border-bottom: 1px solid rgba(176,141,87,.3); }
+  .occasion:first-of-type { padding-top: 0; }
+  .occasion h3 { font-size: clamp(1.8rem, 4vw, 2.6rem); font-style: italic; margin: 0; }
+  .occasion p { margin: 0; max-width: 56ch; color: var(--color-brume); }
+  @media (min-width: 52rem) { .occasion { grid-template-columns: 22rem 1fr; gap: 3rem; align-items: baseline; } }
+  .form-zone { display: grid; gap: 2.5rem; }
+  .form-zone p { max-width: 42ch; margin-bottom: 2rem; }
+  @media (min-width: 56rem) { .form-zone { grid-template-columns: 1fr 1.3fr; gap: 4rem; } }
+</style>

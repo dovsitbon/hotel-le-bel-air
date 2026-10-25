@@ -1,0 +1,35 @@
+{
+  "nom": "Le Bel Air",
+  "nomComplet": "Hôtel Le Bel Air",
+  "activite": "Hôtel, restaurant et bar à cocktails",
+  "adresse": {
+    "rue": "67 avenue du Général de Gaulle",
+    "codePostal": "95350",
+    "ville": "Saint-Brice-sous-Forêt",
+    "pays": "FR"
+  },
+  "telephone": "09 50 51 08 86",
+  "telephoneIntl": "+33950510886",
+  "email": "",
+  "geo": null,
+  "sameAs": [],
+  "itineraire": "https://www.google.com/maps/dir/?api=1&destination=H%C3%B4tel%20Le%20Bel%20Air%2C%2067%20avenue%20du%20G%C3%A9n%C3%A9ral%20de%20Gaulle%2C%2095350%20Saint-Brice-sous-For%C3%AAt",
+  "carteEmbed": "https://www.google.com/maps?q=H%C3%B4tel%20Le%20Bel%20Air%2C%2067%20avenue%20du%20G%C3%A9n%C3%A9ral%20de%20Gaulle%2C%2095350%20Saint-Brice-sous-For%C3%AAt&output=embed",
+  "note": { "valeur": "4,2", "avis": "38", "source": "Google" },
+  "web3formsKey": "[À CONFIRMER]",
+  "horaires": {
+    "_aide": "Restaurant et bar. Jours : 1 = lundi … 7 = dimanche. Chaque jour = liste de créneaux [\"ouverture\", \"fermeture\"] au format HH:MM, fuseau Europe/Paris. Un créneau qui finit après minuit s'écrit par ex. [\"18:00\", \"01:00\"]. Laisser [] pour un jour fermé. Tant que tous les jours sont vides, le site affiche « horaires à confirmer ».",
+    "aConfirmer": true,
+    "remarque": "Un annuaire indique le restaurant et le bar ouverts jusqu'à 23 h [À CONFIRMER].",
+    "jours": {
+      "1": [],
+      "2": [],
+      "3": [],
+      "4": [],
+      "5": [],
+      "6": [],
+      "7": []
+    }
+  },
+  "receptionHotel": "[À CONFIRMER]"
+}

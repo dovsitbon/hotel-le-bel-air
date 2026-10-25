@@ -1,0 +1,76 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import PhotoSlot from '../components/PhotoSlot.astro';
+import MenuList from '../components/MenuList.astro';
+import Status from '../components/Status.astro';
+import carte from '../data/carte.json';
+import avis from '../data/avis.json';
+import site from '../data/site.json';
+const citationBar = avis.find((a) => a.theme === 'bar');
+const citationCadre = avis.find((a) => a.theme === 'cadre');
+---
+<Base
+  title="Bar à cocktails et terrasse à Saint-Brice-sous-Forêt | Le Bel Air"
+  description="Bar à cocktails et grande terrasse au soleil au Bel Air, à Saint-Brice-sous-Forêt. Pour un verre, une soirée ou un anniversaire. Tél. 09 50 51 08 86."
+>
+  <PageHead cle={3} titre="Le bar et la terrasse" chapo="Un vrai bar à cocktails, ce qui manquait dans le coin. Et une grande terrasse pour prendre un verre au soleil, ou rester quand il se couche." />
+
+  {citationBar && (
+    <section class="exergue" aria-label="Avis client sur le bar">
+      <div class="enveloppe">
+        <blockquote><p>« {citationBar.texte} »</p></blockquote>
+        <p class="source">Avis Google</p>
+      </div>
+    </section>
+  )}
+
+  <section class="bloc sur-creme" aria-labelledby="cocktails-titre">
+    <div class="enveloppe deux">
+      <div>
+        <h2 id="cocktails-titre">Les cocktails</h2>
+        <p class="note">La carte des cocktails et ses prix <span class="a-confirmer">[À CONFIRMER]</span>.</p>
+        <MenuList items={carte.cocktails} />
+      </div>
+      <PhotoSlot titre="un cocktail au comptoir" legende="Verre posé sur le bar, laiton et bois en arrière-plan, lumière du soir." ratio="4 / 5" />
+    </div>
+  </section>
+
+  <section class="bloc" aria-labelledby="terrasse-titre">
+    <div class="enveloppe deux inverse">
+      <PhotoSlot titre="la terrasse au soleil" legende="Vue large de la terrasse en fin d'après-midi, tables occupées de dos, sans visages reconnaissables." ratio="3 / 2" />
+      <div>
+        <h2 id="terrasse-titre">La terrasse</h2>
+        <p>Grande, au soleil, et apaisante selon les clients. Pour un cocktail, un dîner dehors ou une crêpe l'après-midi.</p>
+        {citationCadre && <p class="petite-cit">« {citationCadre.texte} » <span>Avis Google</span></p>}
+        <Status />
+      </div>
+    </div>
+  </section>
+
+  <section class="bloc sur-nuit-2" aria-labelledby="soirees-titre">
+    <div class="enveloppe">
+      <h2 id="soirees-titre">Les soirées</h2>
+      <p>Soirée romantique, anniversaire entre amis, verre après le travail&nbsp;: dites-nous ce que vous préparez. Programme des soirées à thème <span class="a-confirmer">[À CONFIRMER]</span></p>
+      <div class="actions">
+        <a class="btn btn-cerise" href={`tel:${site.telephoneIntl}`}>Appeler le {site.telephone}</a>
+        <a class="btn btn-laiton" href="/evenements/">Organiser un événement</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .exergue { padding-block: 4rem; border-bottom: 1px solid rgba(176,141,87,.3); }
+  .exergue blockquote { margin: 0; }
+  .exergue blockquote p { font-family: var(--font-titre); font-style: italic; font-size: clamp(1.7rem, 4.4vw, 3.1rem); line-height: 1.15; max-width: 26ch; margin: 0; }
+  .source { color: var(--color-laiton-clair); margin: 1rem 0 0; }
+  .bloc { padding-block: 4.5rem; }
+  .bloc h2 { font-size: clamp(2rem, 4.5vw, 3rem); margin: 0 0 1.5rem; }
+  .bloc p { max-width: 52ch; }
+  .deux { display: grid; gap: 2.5rem; }
+  @media (min-width: 56rem) { .deux { grid-template-columns: 1.1fr .9fr; gap: 4rem; align-items: center; } .inverse { grid-template-columns: .9fr 1.1fr; } }
+  .petite-cit { font-family: var(--font-titre); font-style: italic; font-size: 1.15rem; border-left: 2px solid var(--color-laiton); padding-left: 1rem; }
+  .petite-cit span { display: block; font-family: var(--font-texte); font-style: normal; font-size: .9rem; color: var(--color-laiton-clair); margin-top: .4rem; }
+  .actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 1.5rem; }
+</style>

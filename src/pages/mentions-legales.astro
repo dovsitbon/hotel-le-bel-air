@@ -1,0 +1,44 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import site from '../data/site.json';
+---
+<Base title="Mentions légales | Hôtel Le Bel Air" description="Mentions légales du site de l'Hôtel Le Bel Air, Saint-Brice-sous-Forêt : éditeur, hébergeur, propriété intellectuelle.">
+  <PageHead titre="Mentions légales" />
+  <section class="legal">
+    <div class="enveloppe prose">
+      <h2>Éditeur du site</h2>
+      <p>
+        Raison sociale : <span class="a-confirmer">[À CONFIRMER]</span><br />
+        Forme juridique et capital : <span class="a-confirmer">[À CONFIRMER]</span><br />
+        Adresse : {site.adresse.rue}, {site.adresse.codePostal} {site.adresse.ville}<br />
+        Téléphone : <a href={`tel:${site.telephoneIntl}`}>{site.telephone}</a><br />
+        SIRET : <span class="a-confirmer">[À CONFIRMER]</span><br />
+        N° de TVA intracommunautaire : <span class="a-confirmer">[À CONFIRMER]</span><br />
+        Directeur de la publication : <span class="a-confirmer">[À CONFIRMER]</span>
+      </p>
+
+      <h2>Hébergeur</h2>
+      <p>Vercel Inc., 440 N Barranca Ave #4133, Covina, CA 91723, États-Unis. <a href="https://vercel.com" rel="noopener">vercel.com</a></p>
+
+      <h2>Propriété intellectuelle</h2>
+      <p>Les textes, la mise en page et les dessins de ce site (dont les clés de chambre et la carte schématique) sont la propriété de l'éditeur. Toute reproduction sans autorisation est interdite.</p>
+      <p>Le film <cite>Itinéraire d'un enfant gâté</cite> est cité à titre d'information historique sur le lieu. Le site ne reproduit aucune image, extrait ou dialogue du film, et n'a aucun lien avec sa production ou ses ayants droit.</p>
+
+      <h2>Avis clients</h2>
+      <p>Les citations d'avis proviennent d'avis publics laissés sur Google. Elles sont reproduites sans modification et sans le nom de leurs auteurs.</p>
+
+      <h2>Données personnelles</h2>
+      <p>Voir la <a href="/confidentialite/">politique de confidentialité</a>.</p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .legal { padding-block: 3.5rem 5rem; }
+  .prose { max-width: 46rem; }
+  .prose h2 { font-size: 1.7rem; margin: 2.5rem 0 .75rem; }
+  .prose h2:first-child { margin-top: 0; }
+  .prose p { line-height: 1.75; }
+  .prose a { color: var(--color-laiton-clair); }
+</style>

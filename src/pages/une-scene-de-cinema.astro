@@ -1,0 +1,78 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+---
+<Base
+  title="L'hôtel d'Itinéraire d'un enfant gâté (1988) | Le Bel Air"
+  description="En 1988, Claude Lelouch a tourné une scène d'Itinéraire d'un enfant gâté au Bel Air, à Saint-Brice-sous-Forêt, avec Belmondo et Anconina. L'histoire du tournage."
+>
+  <PageHead titre="Une scène de cinéma" chapo="Avant d'être notre hôtel, Le Bel Air a été un décor de cinéma, le temps d'un tournage en 1988." />
+
+  <article class="recit" aria-labelledby="recit-titre">
+    <div class="enveloppe recit-in">
+      <h2 id="recit-titre" class="sr-only">Le tournage au Bel Air</h2>
+      <div class="texte">
+        <p class="lettrine">En 1988, Claude Lelouch tourne <cite>Itinéraire d'un enfant gâté</cite>, avec Jean-Paul Belmondo et Richard Anconina. Pour une partie du film, l'équipe s'installe à Saint-Brice-sous-Forêt, dans notre hôtel, au bord de la Nationale 1.</p>
+        <p>La scène se joue au deuxième étage, dans une chambre. Les deux acteurs y sont seuls, face à face. C'est devenu l'un des moments les plus connus du film, de ceux qu'on se repasse et qu'on cite entre amis.</p>
+        <p>L'hôtel a été entièrement refait depuis, mais l'adresse n'a pas bougé&nbsp;: même bâtiment, même route devant. Un client l'a résumé mieux que nous dans un avis&nbsp;: « Endroit mythique… pour les amoureux du film ».</p>
+        <p>Vous ne trouverez ici ni photo ni extrait du film : ces images appartiennent à leurs auteurs. Le plus simple reste de revoir le film, puis de venir prendre un verre là où la scène a été tournée.</p>
+      </div>
+
+      <aside class="fin" aria-label="Fiche du film">
+        <p class="fin-titre">Générique</p>
+        <dl class="credits">
+          <dt>Film</dt><dd><cite>Itinéraire d'un enfant gâté</cite></dd>
+          <dt>Réalisation</dt><dd>Claude Lelouch</dd>
+          <dt>Avec</dt><dd>Jean-Paul Belmondo</dd>
+          <dt>et</dt><dd>Richard Anconina</dd>
+          <dt>Année</dt><dd>1988</dd>
+          <dt>Lieu de tournage</dt><dd>Hôtel Le Bel Air, Saint-Brice-sous-Forêt</dd>
+          <dt>Décor</dt><dd>une chambre du deuxième étage</dd>
+        </dl>
+      </aside>
+    </div>
+  </article>
+
+  <section class="bloc sur-creme" aria-labelledby="chambre-titre">
+    <div class="enveloppe deux">
+      <div>
+        <h2 id="chambre-titre">Dormir dans la chambre du film&nbsp;?</h2>
+        <p>C'est la question qu'on nous pose. La réponse dépend de la chambre et des dates <span class="a-confirmer">[À CONFIRMER avec le propriétaire]</span>. Le plus simple est d'appeler.</p>
+        <div class="actions">
+          <a class="btn btn-cerise" href="tel:+33950510886">Appeler le 09 50 51 08 86</a>
+          <a class="btn btn-laiton" href="/chambres/#disponibilite">Demander une disponibilité</a>
+        </div>
+      </div>
+      <div class="sources">
+        <h2 id="sources-titre" class="h-petit">D'où viennent ces informations</h2>
+        <ul>
+          <li>L'article Wikipédia consacré au film mentionne un tournage à Saint-Brice-sous-Forêt, à l'hôtel Le Bel-Air. <a class="lien-laiton" href="https://fr.wikipedia.org/wiki/Itin%C3%A9raire_d%27un_enfant_g%C3%A2t%C3%A9" rel="noopener">Lire sur Wikipédia</a></li>
+          <li>La RTBF (2023) situe la scène culte le long de la Nationale 1, à Saint-Brice-sous-Forêt, dans l'hôtel Le Bel-Air. <span class="a-confirmer">[À CONFIRMER : lien de l'article]</span></li>
+          <li>Le site Hôtel &amp; Lodge précise que les deux acteurs sont en tête-à-tête dans une chambre du deuxième étage. <span class="a-confirmer">[À CONFIRMER : lien de l'article]</span></li>
+        </ul>
+        <p class="mention">Le Bel Air n'a aucun lien avec la production du film, son réalisateur, ses acteurs ou leurs ayants droit. Cette page raconte un fait historique du lieu.</p>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .recit { padding-block: 4.5rem 5rem; }
+  .recit-in { display: grid; gap: 3.5rem; }
+  @media (min-width: 60rem) { .recit-in { grid-template-columns: 1.25fr 1fr; gap: 5rem; align-items: start; } }
+  .texte p { font-size: 1.15rem; line-height: 1.75; max-width: 58ch; margin: 0 0 1.4rem; }
+  .lettrine::first-letter { font-family: var(--font-titre); font-size: 4.6em; float: left; line-height: .8; padding: .08em .12em 0 0; color: var(--color-laiton-clair); }
+  .fin { border: 1px solid rgba(176,141,87,.45); padding: 2rem 1.5rem; text-align: center; background: #0a1220; }
+  .fin-titre { font-family: var(--font-titre); font-style: italic; font-size: 1.8rem; margin: 0 0 1.5rem; color: var(--color-laiton-clair); }
+  .fin .credits { text-align: left; }
+  .bloc { padding-block: 4.5rem; }
+  .bloc h2 { font-size: clamp(2rem, 4.5vw, 3rem); margin: 0 0 1.5rem; }
+  .bloc .h-petit { font-size: 1.6rem; }
+  .bloc p { max-width: 52ch; }
+  .deux { display: grid; gap: 3.5rem; }
+  @media (min-width: 56rem) { .deux { grid-template-columns: 1fr 1fr; gap: 5rem; } }
+  .actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 1.5rem; }
+  .sources ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 1rem; }
+  .sources li { padding-left: 1rem; border-left: 2px solid var(--color-laiton-fonce); }
+  .mention { margin-top: 2rem; font-size: .95rem; font-style: italic; }
+</style>

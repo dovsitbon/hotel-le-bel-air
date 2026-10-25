@@ -1,0 +1,33 @@
+---
+import site from '../data/site.json';
+const noms = ['', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
+const jours = site.horaires.jours as Record<string, string[][]>;
+const vide = Object.values(jours).every((s) => !s.length);
+const h = (x: string) => { const [a, b] = x.split(':'); return `${Number(a)} h${b === '00' ? '' : ' ' + b}`; };
+---
+<div class="horaires">
+  {vide ? (
+    <p>Restaurant et bar : horaires <span class="a-confirmer">[À CONFIRMER]</span>. Un annuaire en ligne les indique ouverts jusqu'à 23&nbsp;h, information à vérifier.</p>
+  ) : (
+    <table>
+      <caption class="sr-only">Horaires du restaurant et du bar</caption>
+      <tbody>
+        {[1, 2, 3, 4, 5, 6, 7].map((d) => (
+          <tr>
+            <th scope="row">{noms[d]}</th>
+            <td>{jours[d].length ? jours[d].map(([o, c]) => `${h(o)} – ${h(c)}`).join(', ') : 'Fermé'}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  )}
+  <p>Réception de l'hôtel : <span class="a-confirmer">[À CONFIRMER]</span></p>
+</div>
+
+<style>
+  .horaires { display: grid; gap: .6rem; }
+  .horaires p { margin: 0; }
+  table { border-collapse: collapse; width: 100%; max-width: 26rem; }
+  th, td { text-align: left; padding: .35rem 0; border-bottom: 1px solid rgba(176,141,87,.3); font-weight: 400; }
+  th { font-weight: 500; padding-right: 1.5rem; }
+</style>

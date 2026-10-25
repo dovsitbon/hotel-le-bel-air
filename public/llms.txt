@@ -1,0 +1,11 @@
+# Hôtel Le Bel Air
+
+> Hôtel, restaurant de cuisine méditerranéenne (plats frais, crêpes) et bar à cocktails avec grande terrasse, au 67 avenue du Général de Gaulle, 95350 Saint-Brice-sous-Forêt (Val-d'Oise), au bord de l'ancienne Nationale 1. Téléphone : 09 50 51 08 86. Nouvelle équipe, décor entièrement refait. Parking facile. En 1988, Claude Lelouch y a tourné une scène d'« Itinéraire d'un enfant gâté » avec Jean-Paul Belmondo et Richard Anconina (chambre du deuxième étage). Le site n'a aucun lien officiel avec le film.
+
+## Pages
+- [Chambres et demande de disponibilité](https://hotel-le-bel-air.vercel.app/chambres/)
+- [Restaurant](https://hotel-le-bel-air.vercel.app/restaurant/)
+- [Bar à cocktails et terrasse](https://hotel-le-bel-air.vercel.app/bar-terrasse/)
+- [Une scène de cinéma : le tournage de 1988](https://hotel-le-bel-air.vercel.app/une-scene-de-cinema/)
+- [Événements privés](https://hotel-le-bel-air.vercel.app/evenements/)
+- [Infos pratiques : adresse, accès, horaires, FAQ](https://hotel-le-bel-air.vercel.app/infos-pratiques/)

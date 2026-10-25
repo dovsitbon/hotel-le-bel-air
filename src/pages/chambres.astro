@@ -1,0 +1,85 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import PhotoSlot from '../components/PhotoSlot.astro';
+import RequestForm from '../components/RequestForm.astro';
+import carte from '../data/carte.json';
+import site from '../data/site.json';
+---
+<Base
+  title="Chambres d'hôtel à Saint-Brice-sous-Forêt | Hôtel Le Bel Air"
+  description="Chambres refaites, literie confortable et parking facile à Saint-Brice-sous-Forêt. Demandez une disponibilité en ligne ou au 09 50 51 08 86."
+>
+  <PageHead cle={1} titre="Dormir au Bel Air" chapo="Des chambres refaites avec le reste de la maison, à deux pas du restaurant et du bar. On vous confirme la disponibilité par téléphone, sans plateforme de réservation." />
+
+  <section class="bloc" aria-labelledby="ce-quon-trouve">
+    <div class="enveloppe deux">
+      <div>
+        <h2 id="ce-quon-trouve">Ce que vous trouvez dans la chambre</h2>
+        <ul class="liste">
+          <li>Une literie confortable et des draps propres, c'est ce que les clients relèvent le plus souvent.</li>
+          <li>Un décor refait par la nouvelle équipe, dans le même esprit cocooning que le bar.</li>
+          <li>Le parking facile, juste devant.</li>
+          <li>Le dîner et le dernier verre en bas, sans reprendre la voiture.</li>
+          <li>Équipements détaillés de chaque chambre <span class="a-confirmer">[À CONFIRMER]</span></li>
+        </ul>
+      </div>
+      <PhotoSlot titre="une chambre refaite" legende="Lit fait, lumière naturelle, prise de vue depuis la porte." ratio="3 / 2" />
+    </div>
+  </section>
+
+  <section class="bloc sur-creme" aria-labelledby="types">
+    <div class="enveloppe">
+      <h2 id="types">Les chambres et les tarifs</h2>
+      <div class="tableau-wrap">
+        <table class="fiche">
+          <caption class="sr-only">Types de chambres, couchage et tarif par nuit</caption>
+          <thead><tr><th scope="col">Chambre</th><th scope="col">Couchage</th><th scope="col">Tarif par nuit</th></tr></thead>
+          <tbody>
+            {carte.chambres.map((c) => (
+              <tr>
+                <td>{c.type.includes('CONFIRMER') ? <span class="a-confirmer">{c.type}</span> : c.type}</td>
+                <td>{c.couchage.includes('CONFIRMER') ? <span class="a-confirmer">{c.couchage}</span> : c.couchage}</td>
+                <td>{c.tarif.includes('CONFIRMER') ? <span class="a-confirmer">{c.tarif}</span> : c.tarif}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="film-chambre">
+        <h3>La chambre du film</h3>
+        <p>La scène d'<cite>Itinéraire d'un enfant gâté</cite> a été tournée dans une chambre du deuxième étage. Peut-on la réserver ? <span class="a-confirmer">[À CONFIRMER avec le propriétaire]</span></p>
+        <a class="lien-laiton" href="/une-scene-de-cinema/">L'histoire du tournage</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="bloc" id="disponibilite" aria-labelledby="dispo-titre">
+    <div class="enveloppe form-zone">
+      <div>
+        <h2 id="dispo-titre">Demander une disponibilité</h2>
+        <p>Indiquez vos dates : on vous rappelle pour confirmer la chambre et le tarif. C'est une demande, pas une réservation ferme.</p>
+        <p>Plus rapide : <a class="lien-laiton" href={`tel:${site.telephoneIntl}`}>{site.telephone}</a></p>
+      </div>
+      <RequestForm objet="chambre" />
+    </div>
+  </section>
+</Base>
+
+<style>
+  .bloc { padding-block: 4.5rem; }
+  .bloc h2 { font-size: clamp(2rem, 4.5vw, 3rem); margin: 0 0 1.5rem; }
+  .deux, .form-zone { display: grid; gap: 2.5rem; }
+  @media (min-width: 56rem) { .deux { grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; } .form-zone { grid-template-columns: 1fr 1.4fr; gap: 4rem; } }
+  .liste { margin: 0; padding: 0; list-style: none; display: grid; }
+  .liste li { padding: .9rem 0 .9rem 1.6rem; border-bottom: 1px solid rgba(176,141,87,.25); position: relative; max-width: 52ch; }
+  .liste li::before { content: ""; position: absolute; left: 0; top: 1.45rem; width: .55rem; height: .55rem; background: var(--color-laiton); transform: rotate(45deg); }
+  .tableau-wrap { overflow-x: auto; }
+  .fiche { width: 100%; border-collapse: collapse; }
+  .fiche th { text-align: left; font-weight: 500; font-family: var(--font-titre); font-style: italic; color: var(--color-laiton-fonce); padding: .6rem .5rem .6rem 0; border-bottom: 2px solid var(--color-laiton-fonce); }
+  .fiche td { padding: .9rem .5rem .9rem 0; border-bottom: 1px solid rgba(122,92,46,.35); }
+  .film-chambre { margin-top: 3rem; padding: 1.75rem; border: 1px solid var(--color-laiton-fonce); max-width: 44rem; }
+  .film-chambre h3 { font-size: 1.8rem; font-style: italic; margin: 0 0 .75rem; }
+  .form-zone > div > p { max-width: 40ch; }
+</style>
